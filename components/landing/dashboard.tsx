@@ -29,8 +29,9 @@ export default function Dashboard() {
                 <span className="text-sm text-muted-foreground">{prompt.length}/1000</span>
                 <Button 
                   size="lg"
-                  className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 rounded-full"
-                >
+               
+            className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 rounded-full cursor-pointer"
+            onClick={() => {}}                >
                   Generate Image ✨
                 </Button>
               </div>
