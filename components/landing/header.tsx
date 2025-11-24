@@ -41,7 +41,7 @@ export default function Header() {
                 </Button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <Button size="sm" className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700">
+                <Button size="sm" className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 rounded-full">
                   Get Started
                 </Button>
               </SignUpButton>
@@ -104,7 +104,7 @@ export default function Header() {
                 </SignInButton>
                 <SignUpButton mode="modal">
                   <button
-                    className="px-8 py-3 text-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-md hover:from-indigo-600 hover:to-purple-700 transition-colors font-medium"
+                    className="px-8 py-3 text-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full hover:from-indigo-600 hover:to-purple-700 transition-colors font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Get Started
