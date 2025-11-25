@@ -16,7 +16,7 @@ export default function Dashboard() {
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
   const [recentImages, setRecentImages] = useState<GeneratedImage[]>([]);
-  const [dailyCount, setDailyCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const handleGenerate = async () => {
@@ -57,16 +57,13 @@ export default function Dashboard() {
         
         if (images) setRecentImages(images);
 
-        // Update daily count
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        // Update total count
         const { count } = await supabase
           .from('generated_images')
           .select('*', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .gte('created_at', today.toISOString());
+          .eq('user_id', user.id);
         
-        setDailyCount(count || 0);
+        setTotalCount(count || 0);
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Something went wrong';
@@ -97,17 +94,13 @@ export default function Dashboard() {
         setRecentImages(data || []);
       }
 
-      // Fetch today's count
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
+      // Fetch total count
       const { count } = await supabase
         .from('generated_images')
         .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .gte('created_at', today.toISOString());
+        .eq('user_id', user.id);
 
-      setDailyCount(count || 0);
+      setTotalCount(count || 0);
 
       // Ensure minimum 6 seconds have passed
       const elapsedTime = Date.now() - startTime;
@@ -149,7 +142,7 @@ export default function Dashboard() {
               {!isInitialLoading && user ? (
                 <div className="flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-200">
                   <span className="text-sm font-medium text-indigo-700">
-                    {5 - dailyCount} / 5 credits left today
+                    {5 - totalCount} / 5 credits left
                   </span>
                 </div>
               ) : (

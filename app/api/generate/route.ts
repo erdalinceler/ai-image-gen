@@ -19,24 +19,20 @@ export async function POST(req: Request) {
       return new NextResponse('Prompt is too long', { status: 400 });
     }
 
-    // Check daily limit (5 images per day)
+    // Check total account limit (5 images per account)
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
     const { count } = await supabase
       .from('generated_images')
       .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .gte('created_at', today.toISOString());
+      .eq('user_id', userId);
 
     if (count !== null && count >= 5) {
-      return new NextResponse('Daily limit reached (5 images per day)', { status: 429 });
+      return new NextResponse('Account limit reached (5 images total)', { status: 429 });
     }
 
     const form = new FormData();
