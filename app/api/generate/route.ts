@@ -71,7 +71,9 @@ export async function POST(req: Request) {
       .select();
 
     if (dbError) {
+
       // Database error occurred but image was generated successfully
+      
     }
 
     return NextResponse.json({ url: imageUrl });
