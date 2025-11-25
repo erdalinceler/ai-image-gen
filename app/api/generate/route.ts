@@ -48,7 +48,6 @@ export async function POST(req: Request) {
 
     if (!response.ok) {
       const error = await response.json();
-      console.error('[CLIPDROP_ERROR]', error);
       return new NextResponse(error.error || 'Failed to generate image', { status: 500 });
     }
 
@@ -60,11 +59,8 @@ export async function POST(req: Request) {
     // Log remaining credits
     const remainingCredits = response.headers.get('x-remaining-credits');
     const creditsConsumed = response.headers.get('x-credits-consumed');
-    console.log(`Credits remaining: ${remainingCredits}, consumed: ${creditsConsumed}`);
 
     // Save to Supabase
-    console.log('[SUPABASE] Saving image for user:', userId);
-    
     const { data: insertData, error: dbError } = await supabase
       .from('generated_images')
       .insert({
@@ -75,14 +71,11 @@ export async function POST(req: Request) {
       .select();
 
     if (dbError) {
-      console.error('[SUPABASE_ERROR]', dbError);
-    } else {
-      console.log('[SUPABASE] Image saved successfully:', insertData);
+      // Database error occurred but image was generated successfully
     }
 
     return NextResponse.json({ url: imageUrl });
   } catch (error) {
-    console.error('[GENERATE_ERROR]', error);
     const message = error instanceof Error ? error.message : 'Internal Error';
     return new NextResponse(message, { status: 500 });
   }

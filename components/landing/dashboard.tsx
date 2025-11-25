@@ -88,9 +88,7 @@ export default function Dashboard() {
         .order('created_at', { ascending: false })
         .limit(4);
 
-      if (error) {
-        console.error('Error fetching images:', error);
-      } else {
+      if (!error) {
         setRecentImages(data || []);
       }
 
@@ -127,7 +125,7 @@ export default function Dashboard() {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Download failed:', error);
+      // Download failed silently
     }
   };
 
