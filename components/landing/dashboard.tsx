@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
+import { AiOutlineDownload } from "react-icons/ai";
 import Header from "@/components/landing/header";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ export default function Dashboard() {
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
   const [recentImages, setRecentImages] = useState<GeneratedImage[]>([]);
+  const [dailyCount, setDailyCount] = useState(0);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -43,7 +45,7 @@ export default function Dashboard() {
       setImageUrl(data.url);
       setPrompt("");
       
-      // Refresh recent images
+      // Refresh recent images and count
       if (user?.id) {
         const { data: images } = await supabase
           .from('generated_images')
@@ -53,6 +55,17 @@ export default function Dashboard() {
           .limit(4);
         
         if (images) setRecentImages(images);
+
+        // Update daily count
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const { count } = await supabase
+          .from('generated_images')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', user.id)
+          .gte('created_at', today.toISOString());
+        
+        setDailyCount(count || 0);
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Something went wrong';
@@ -63,9 +76,10 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    const fetchRecentImages = async () => {
+    const fetchData = async () => {
       if (!user?.id) return;
 
+      // Fetch recent images
       const { data, error } = await supabase
         .from('generated_images')
         .select('*')
@@ -78,10 +92,39 @@ export default function Dashboard() {
       } else {
         setRecentImages(data || []);
       }
+
+      // Fetch today's count
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const { count } = await supabase
+        .from('generated_images')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .gte('created_at', today.toISOString());
+
+      setDailyCount(count || 0);
     };
 
-    fetchRecentImages();
+    fetchData();
   }, [user?.id]);
+
+  const handleDownload = async (imageUrl: string, prompt: string) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${prompt.slice(0, 30).replace(/[^a-z0-9]/gi, '_')}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
 
   return (
     <>
@@ -89,7 +132,14 @@ export default function Dashboard() {
       <main className="flex flex-1 flex-col gap-4 bg-muted/40 p-4 md:p-6 lg:p-8 pt-24">
         <Container>
           <div className="mx-auto w-full max-w-3xl">
-            <h1 className="text-2xl font-semibold mb-6">Generate AI Images</h1>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-semibold">Generate AI Images</h1>
+              <div className="flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-200">
+                <span className="text-sm font-medium text-indigo-700">
+                  {5 - dailyCount} / 5 credits left today
+                </span>
+              </div>
+            </div>
             
             <div className="bg-card rounded-lg p-6 border">
               <textarea
@@ -140,8 +190,18 @@ export default function Dashboard() {
                         fill
                         className="object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                        <p className="text-white text-sm line-clamp-2">{img.prompt}</p>
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-4">
+                        <div className="flex-1" />
+                        <div className="flex items-end justify-between">
+                          <p className="text-white text-sm line-clamp-2 flex-1">{img.prompt}</p>
+                          <button
+                            onClick={() => handleDownload(img.image_url, img.prompt)}
+                            className="ml-2 p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
+                            aria-label="Download image"
+                          >
+                            <AiOutlineDownload className="w-5 h-5 text-white" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))
