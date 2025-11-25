@@ -221,7 +221,7 @@ export default function Dashboard() {
                         fill
                         className="object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-4">
+                      <div className="absolute inset-0 bg-black/60 opacity-0 md:group-hover:opacity-100 md:opacity-0 opacity-100 transition-opacity flex flex-col justify-between p-4">
                         <div className="flex-1" />
                         <div className="flex items-end justify-between">
                           <p className="text-white text-sm line-clamp-2 flex-1">{img.prompt}</p>
