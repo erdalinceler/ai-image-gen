@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { AiOutlineStar, AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Container from "@/components/shared/container";
@@ -9,6 +10,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -47,11 +49,20 @@ export default function Header() {
               </SignUpButton>
             </SignedOut>
             <SignedIn>
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                  Dashboard
-                </Button>
-              </Link>
+              {pathname === "/dashboard" ? (
+                <Link href="/">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                    
+                    Home
+                  </Button>
+                </Link>
+              ) : (
+                <Link href="/dashboard">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                    Dashboard
+                  </Button>
+                </Link>
+              )}
               <UserButton />
             </SignedIn>
           </nav>
@@ -82,13 +93,18 @@ export default function Header() {
                 </div>
                 <span className="text-lg font-semibold text-gray-900">AI Photo</span>
               </Link>
-              <button
-                className="text-gray-900 hover:text-indigo-500 transition-colors p-2"
-                onClick={() => setIsMenuOpen(false)}
-                aria-label="Close Menu"
-              >
-                <AiOutlineClose className="w-6 h-6" />
-              </button>
+              <div className="flex items-center gap-3">
+                <SignedIn>
+                  <UserButton afterSignOutUrl="/" />
+                </SignedIn>
+                <button
+                  className="text-gray-900 hover:text-indigo-500 transition-colors p-2"
+                  onClick={() => setIsMenuOpen(false)}
+                  aria-label="Close Menu"
+                >
+                  <AiOutlineClose className="w-6 h-6" />
+                </button>
+              </div>
             </div>
 
             {/* Mobile Menu Items */}
@@ -112,14 +128,23 @@ export default function Header() {
                 </SignUpButton>
               </SignedOut>
               <SignedIn>
-                <Link
-                  href="/dashboard"
-                  className="text-2xl text-gray-900 hover:text-indigo-500 transition-colors font-medium"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-                <UserButton />
+                {pathname === "/dashboard" ? (
+                  <Link
+                    href="/"
+                    className="text-2xl text-gray-900 hover:text-indigo-500 transition-colors font-medium"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Home
+                  </Link>
+                ) : (
+                  <Link
+                    href="/dashboard"
+                    className="text-2xl text-gray-900 hover:text-indigo-500 transition-colors font-medium"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                )}
               </SignedIn>
             </div>
           </div>
