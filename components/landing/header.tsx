@@ -67,14 +67,19 @@ export default function Header() {
             </SignedIn>
           </nav>
 
-          {/* Mobile Hamburger Button */}
-          <button
-            className="md:hidden text-black hover:text-indigo-500 transition-colors z-[60]"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-          >
-            {isMenuOpen ? <AiOutlineClose className="w-6 h-6" /> : <AiOutlineMenu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Menu - Avatar + Hamburger */}
+          <div className="md:hidden flex items-center gap-4">
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            <button
+              className="text-black hover:text-indigo-500 transition-colors z-[60]"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+            >
+              {isMenuOpen ? <AiOutlineClose className="w-6 h-6" /> : <AiOutlineMenu className="w-6 h-6" />}
+            </button>
+          </div>
         </Container>
       </header>
 
@@ -93,18 +98,13 @@ export default function Header() {
                 </div>
                 <span className="text-lg font-semibold text-gray-900">AI Photo</span>
               </Link>
-              <div className="flex items-center gap-3">
-                <SignedIn>
-                  <UserButton afterSignOutUrl="/" />
-                </SignedIn>
-                <button
-                  className="text-gray-900 hover:text-indigo-500 transition-colors p-2"
-                  onClick={() => setIsMenuOpen(false)}
-                  aria-label="Close Menu"
-                >
-                  <AiOutlineClose className="w-6 h-6" />
-                </button>
-              </div>
+              <button
+                className="text-gray-900 hover:text-indigo-500 transition-colors p-2"
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Close Menu"
+              >
+                <AiOutlineClose className="w-6 h-6" />
+              </button>
             </div>
 
             {/* Mobile Menu Items */}
