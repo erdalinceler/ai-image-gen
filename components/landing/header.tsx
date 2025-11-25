@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { AiOutlineStar, AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { isLoaded } = useUser();
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -36,6 +37,12 @@ export default function Header() {
           
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center gap-6">
+            {!isLoaded && (
+              <>
+                <div className="h-9 w-20 bg-gray-200 rounded animate-skeleton" />
+                <div className="h-9 w-24 bg-gray-200 rounded-full animate-skeleton" />
+              </>
+            )}
             <SignedOut>
               <SignInButton mode="modal">
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
@@ -69,6 +76,7 @@ export default function Header() {
 
           {/* Mobile Menu - Avatar + Hamburger */}
           <div className="md:hidden flex items-center gap-4">
+            {!isLoaded && <div className="h-8 w-8 bg-gray-200 rounded-full animate-skeleton" />}
             <SignedIn>
               <UserButton afterSignOutUrl="/" />
             </SignedIn>

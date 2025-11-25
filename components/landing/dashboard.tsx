@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [error, setError] = useState("");
   const [recentImages, setRecentImages] = useState<GeneratedImage[]>([]);
   const [dailyCount, setDailyCount] = useState(0);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -79,6 +80,9 @@ export default function Dashboard() {
     const fetchData = async () => {
       if (!user?.id) return;
 
+      // Minimum 6 second loading time
+      const startTime = Date.now();
+
       // Fetch recent images
       const { data, error } = await supabase
         .from('generated_images')
@@ -104,6 +108,14 @@ export default function Dashboard() {
         .gte('created_at', today.toISOString());
 
       setDailyCount(count || 0);
+
+      // Ensure minimum 6 seconds have passed
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 6000 - elapsedTime);
+      
+      setTimeout(() => {
+        setIsInitialLoading(false);
+      }, remainingTime);
     };
 
     fetchData();
@@ -134,11 +146,18 @@ export default function Dashboard() {
           <div className="mx-auto w-full max-w-3xl">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-semibold">Generate AI Images</h1>
-              <div className="flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-200">
-                <span className="text-sm font-medium text-indigo-700">
-                  {5 - dailyCount} / 5 credits left today
-                </span>
-              </div>
+              {!isInitialLoading && user ? (
+                <div className="flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-200">
+                  <span className="text-sm font-medium text-indigo-700">
+                    {5 - dailyCount} / 5 credits left today
+                  </span>
+                </div>
+              ) : (
+                <div 
+                  className="h-9 w-32 bg-gray-200 rounded-full" 
+                  style={{ animation: 'skeleton-pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                />
+              )}
             </div>
             
             <div className="bg-card rounded-lg p-6 border">
@@ -181,7 +200,19 @@ export default function Dashboard() {
             <div className="mt-8">
               <h2 className="text-2xl font-semibold mb-4">Your Generated Images</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {recentImages.length > 0 ? (
+                {isInitialLoading ? (
+                  // Loading skeleton
+                  <>
+                    <div 
+                      className="aspect-square bg-gray-200 rounded-lg" 
+                      style={{ animation: 'skeleton-pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                    />
+                    <div 
+                      className="aspect-square bg-gray-200 rounded-lg" 
+                      style={{ animation: 'skeleton-pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                    />
+                  </>
+                ) : recentImages.length > 0 ? (
                   recentImages.map((img) => (
                     <div key={img.id} className="relative aspect-square bg-muted rounded-lg overflow-hidden group">
                       <Image
