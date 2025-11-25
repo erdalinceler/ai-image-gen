@@ -46,6 +46,30 @@ export async function POST(req: Request) {
     const creditsConsumed = response.headers.get('x-credits-consumed');
     console.log(`Credits remaining: ${remainingCredits}, consumed: ${creditsConsumed}`);
 
+    // Save to Supabase
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    console.log('[SUPABASE] Saving image for user:', userId);
+    
+    const { data: insertData, error: dbError } = await supabase
+      .from('generated_images')
+      .insert({
+        user_id: userId,
+        prompt: prompt,
+        image_url: imageUrl,
+      })
+      .select();
+
+    if (dbError) {
+      console.error('[SUPABASE_ERROR]', dbError);
+    } else {
+      console.log('[SUPABASE] Image saved successfully:', insertData);
+    }
+
     return NextResponse.json({ url: imageUrl });
   } catch (error) {
     console.error('[GENERATE_ERROR]', error);

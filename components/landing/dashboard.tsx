@@ -1,16 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
 import Header from "@/components/landing/header";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
+import { supabase, type GeneratedImage } from "@/lib/supabase";
 
 export default function Dashboard() {
+  const { user } = useUser();
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
+  const [recentImages, setRecentImages] = useState<GeneratedImage[]>([]);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -38,6 +42,18 @@ export default function Dashboard() {
       const data = await response.json();
       setImageUrl(data.url);
       setPrompt("");
+      
+      // Refresh recent images
+      if (user?.id) {
+        const { data: images } = await supabase
+          .from('generated_images')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(4);
+        
+        if (images) setRecentImages(images);
+      }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Something went wrong';
       setError(message);
@@ -45,6 +61,27 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchRecentImages = async () => {
+      if (!user?.id) return;
+
+      const { data, error } = await supabase
+        .from('generated_images')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(4);
+
+      if (error) {
+        console.error('Error fetching images:', error);
+      } else {
+        setRecentImages(data || []);
+      }
+    };
+
+    fetchRecentImages();
+  }, [user?.id]);
 
   return (
     <>
@@ -94,15 +131,20 @@ export default function Dashboard() {
             <div className="mt-8">
               <h2 className="text-2xl font-semibold mb-4">Your Generated Images</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {imageUrl ? (
-                  <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
-                    <Image
-                      src={imageUrl}
-                      alt="Generated image"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                {recentImages.length > 0 ? (
+                  recentImages.map((img) => (
+                    <div key={img.id} className="relative aspect-square bg-muted rounded-lg overflow-hidden group">
+                      <Image
+                        src={img.image_url}
+                        alt={img.prompt}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <p className="text-white text-sm line-clamp-2">{img.prompt}</p>
+                      </div>
+                    </div>
+                  ))
                 ) : (
                   <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
                     <p className="text-muted-foreground">No images yet</p>
