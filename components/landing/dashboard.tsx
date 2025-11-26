@@ -218,7 +218,7 @@ export default function Dashboard() {
                           <p className="text-white text-sm line-clamp-2 flex-1">{img.prompt}</p>
                           <button
                             onClick={() => handleDownload(img.image_url, img.prompt)}
-                            className="ml-2 p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
+                            className="ml-2 p-2 bg-white/20 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-600 rounded-full transition-all duration-300"
                             aria-label="Download image"
                           >
                             <AiOutlineDownload className="w-5 h-5 text-white" />
