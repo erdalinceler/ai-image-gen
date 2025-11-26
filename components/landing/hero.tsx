@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-muted/40">
+    <section className="relative min-h-screen overflow-hidden bg-muted/40 pb-16 border-b border-gray-200">
       <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
         <div className="stars-layer-1 absolute inset-0" />
         <div className="stars-layer-2 absolute inset-0" />

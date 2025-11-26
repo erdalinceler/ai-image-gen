@@ -28,7 +28,7 @@ export default function Features() {
   ];
 
   return (
-    <section className="py-20 bg-muted/40">
+    <section className="py-20 pb-32 bg-muted/40 border-b border-gray-200">
       <Container>
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="text-3xl font-semibold text-center mb-12">
