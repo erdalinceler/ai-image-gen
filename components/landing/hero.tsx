@@ -107,7 +107,7 @@ export default function Hero() {
 
             <div className="mt-6 text-center">
               <p className="text-sm font-medium text-muted-foreground">
-                Examples of AI-generated images you can create with AI Photo
+                Examples of AI-generated images you can create with Texura AI
               </p>
             </div>
           </div>
