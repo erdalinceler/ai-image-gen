@@ -130,7 +130,7 @@ export default function Dashboard() {
   return (
     <>
       <Header />
-      <main className="flex flex-1 flex-col gap-4 bg-muted/40 p-4 md:p-6 lg:p-8 pt-24">
+      <main className="flex flex-1 flex-col gap-4 p-4 md:p-6 lg:p-8 pt-24">
         <Container>
           <div className="mx-auto w-full max-w-3xl">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
