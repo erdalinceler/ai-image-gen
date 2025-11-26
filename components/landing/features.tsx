@@ -32,7 +32,7 @@ export default function Features() {
       <Container>
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="text-3xl font-semibold text-center mb-12">
-            Why Choose AI Photo
+            Why Choose Texura AI
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

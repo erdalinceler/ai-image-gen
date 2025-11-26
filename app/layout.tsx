@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "AI Photo - Transform your imagination",
+  title: "Texura AI - Transform your imagination",
   description: "Create stunning images with AI",
 };
 

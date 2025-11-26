@@ -133,10 +133,10 @@ export default function Dashboard() {
       <main className="flex flex-1 flex-col gap-4 bg-muted/40 p-4 md:p-6 lg:p-8 pt-24">
         <Container>
           <div className="mx-auto w-full max-w-3xl">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-semibold">Generate AI Images</h1>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+              <h1 className="text-xl sm:text-2xl font-semibold">Generate AI Images</h1>
               {!isInitialLoading && user ? (
-                <div className="flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-200">
+                <div className="flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-200 w-fit">
                   <span className="text-sm font-medium text-indigo-700">
                     {5 - totalCount} / 5 credits left
                   </span>
@@ -187,7 +187,7 @@ export default function Dashboard() {
 
             {/* Generated Images Grid */}
             <div className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">Your Generated Images</h2>
+              <h2 className="text-xl font-semibold mb-4">Your Generated Images</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {isInitialLoading ? (
                   // Loading skeleton
