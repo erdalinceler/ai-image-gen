@@ -32,16 +32,9 @@ export default function Hero() {
         </div>
 
         <div className="text-center">
-          <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-balance">
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Transform ideas into{" "}
-            </span>
-            <span className="relative">
-              <span className="relative z-10 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">stunning visuals</span>
-              <span className="absolute -inset-1 -skew-y-1 bg-gradient-to-r from-indigo-500/10 to-purple-600/10 blur-sm" />
-            </span>{" "}
-            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent">
-              with AI
+          <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+            <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-600 bg-clip-text text-transparent">
+              Transform ideas into stunning visuals with AI
             </span>
           </h1>
 
@@ -61,15 +54,6 @@ export default function Hero() {
                 Sign Up For 5 Free Credits
               </Button>
             </SignUpButton>
-            <Link href="/dashboard">
-              <Button
-                size="lg"
-                variant="outline"
-                className="h-12 min-w-[200px] border-2 border-border bg-transparent text-foreground hover:bg-secondary rounded-full"
-              >
-                Try Without Signing Up
-              </Button>
-            </Link>
           </SignedOut>
           <SignedIn>
             <Link href="/dashboard">
@@ -93,7 +77,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="relative rounded-2xl border border-border bg-card/50 p-3 shadow-2xl backdrop-blur-sm lg:p-4">
+          <div className="relative rounded-2xl border border-gray-300 bg-gray-100 p-3 shadow-2xl backdrop-blur-sm lg:p-4">
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
 
             <div className="relative grid grid-cols-1 gap-3 md:grid-cols-3 lg:gap-4">
