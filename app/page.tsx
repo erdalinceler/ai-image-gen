@@ -1,14 +1,11 @@
 import Header from "@/components/landing/header";
-import Container from "@/components/shared/container";
+import Hero from "@/components/landing/hero";
 
 export default function Home() {
   return (
     <>
-     <Container>
       <Header />
-     
-      
-      </Container>
+      <Hero />
     </>
   );
 }

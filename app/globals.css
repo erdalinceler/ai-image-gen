@@ -1,8 +1,9 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
+/* Restored original purple theme */
 :root {
   --background: oklch(0.99 0 0);
   --foreground: oklch(0.12 0 0);
@@ -24,9 +25,9 @@
   --input: oklch(0.92 0.01 264);
   --ring: oklch(0.55 0.22 264);
   --chart-1: oklch(0.55 0.22 264);
-  --chart-2: oklch(0.60 0.20 290);
+  --chart-2: oklch(0.6 0.2 290);
   --chart-3: oklch(0.65 0.18 310);
-  --chart-4: oklch(0.70 0.16 330);
+  --chart-4: oklch(0.7 0.16 330);
   --chart-5: oklch(0.75 0.14 350);
   --radius: 0.625rem;
   --sidebar: oklch(0.99 0 0);
@@ -40,34 +41,34 @@
 }
 
 .dark {
-  --background: oklch(0.10 0 0);
+  --background: oklch(0.1 0 0);
   --foreground: oklch(0.98 0 0);
   --card: oklch(0.12 0 0);
   --card-foreground: oklch(0.98 0 0);
   --popover: oklch(0.12 0 0);
   --popover-foreground: oklch(0.98 0 0);
   --primary: oklch(0.62 0.24 270);
-  --primary-foreground: oklch(0.10 0 0);
+  --primary-foreground: oklch(0.1 0 0);
   --secondary: oklch(0.18 0.02 270);
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.18 0.02 270);
   --muted-foreground: oklch(0.62 0.04 270);
   --accent: oklch(0.18 0.02 270);
   --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.50 0.20 27);
+  --destructive: oklch(0.5 0.2 27);
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(0.22 0.02 270);
   --input: oklch(0.22 0.02 270);
   --ring: oklch(0.62 0.24 270);
   --chart-1: oklch(0.62 0.24 270);
   --chart-2: oklch(0.65 0.22 290);
-  --chart-3: oklch(0.68 0.20 310);
+  --chart-3: oklch(0.68 0.2 310);
   --chart-4: oklch(0.71 0.18 330);
   --chart-5: oklch(0.74 0.16 350);
   --sidebar: oklch(0.12 0 0);
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.62 0.24 270);
-  --sidebar-primary-foreground: oklch(0.10 0 0);
+  --sidebar-primary-foreground: oklch(0.1 0 0);
   --sidebar-accent: oklch(0.18 0.02 270);
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(0.22 0.02 270);
@@ -75,6 +76,7 @@
 }
 
 @theme inline {
+  /* Restored Poppins font */
   --font-sans: var(--font-poppins);
   --font-mono: var(--font-poppins);
   --color-background: var(--background);
@@ -126,8 +128,10 @@
   }
 }
 
+/* Added skeleton animation from original */
 @keyframes skeleton-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -137,4 +141,47 @@
 
 .animate-skeleton {
   animation: skeleton-pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+}
+
+/* Added hero animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes float-delayed {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
 }
