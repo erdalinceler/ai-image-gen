@@ -97,7 +97,7 @@ export default function Hero() {
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
 
             <div className="relative grid grid-cols-1 gap-3 md:grid-cols-3 lg:gap-4">
-              <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary">
+              <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
                 <Image
                   src="/make_cyberpunk_cat.png"
                   alt="AI generated cyberpunk cat with neon lights"
@@ -111,7 +111,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary">
+              <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
                 <Image
                   src="/make_cyberpunk_chiwawa_breed_d.png"
                   alt="AI generated cyberpunk chihuahua"
@@ -125,7 +125,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary">
+              <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
                 <Image
                   src="/make_punk_cat .png"
                   alt="AI generated punk cat"
