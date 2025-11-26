@@ -8,22 +8,20 @@ import { Button } from "@/components/ui/button"
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-background">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-40 -top-40 h-80 w-80 animate-pulse rounded-full bg-accent/20 blur-3xl" />
-        <div className="absolute -right-40 top-1/3 h-96 w-96 animate-pulse rounded-full bg-accent/10 blur-3xl delay-1000" />
-        <div className="absolute bottom-0 left-1/3 h-72 w-72 animate-pulse rounded-full bg-accent/15 blur-3xl delay-500" />
+    <section className="relative min-h-screen overflow-hidden bg-muted/40">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+        <div className="stars-layer-1 absolute inset-0" />
+        <div className="stars-layer-2 absolute inset-0" />
+        <div className="stars-layer-3 absolute inset-0" />
       </div>
 
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }}
-      />
+      <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+        <div className="absolute -left-40 -top-40 h-80 w-80 animate-pulse rounded-full bg-purple-500/20 blur-3xl" />
+        <div className="absolute -right-40 top-1/3 h-96 w-96 animate-pulse rounded-full bg-indigo-500/15 blur-3xl delay-1000" />
+        <div className="absolute bottom-0 left-1/3 h-72 w-72 animate-pulse rounded-full bg-purple-400/20 blur-3xl delay-500" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-20 lg:pt-24">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-20 pb-20 lg:pt-24">
         <div className="flex justify-center mb-8">
           <div className="group inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 backdrop-blur-sm transition-all hover:border-indigo-300 hover:bg-indigo-100">
             <AiOutlineStar className="h-4 w-4 text-indigo-600" />
@@ -82,44 +80,27 @@ export default function Hero() {
 
             <div className="relative grid grid-cols-1 gap-3 md:grid-cols-3 lg:gap-4">
               <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
-                <Image
-                  src="/make_cyberpunk_cat.png"
-                  alt="AI generated cyberpunk cat with neon lights"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                <Image src="/make_cyberpunk_cat.png" alt="AI generated cyberpunk cat" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0">
-                  <p className="text-sm font-medium text-foreground">Cyberpunk Cat</p>
-                  <p className="text-xs text-muted-foreground">Neon city vibes</p>
+                  <p className="text-sm font-medium text-white">Cyberpunk Cat</p>
+                  <p className="text-xs text-gray-300">Neon city vibes</p>
                 </div>
               </div>
-
               <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
-                <Image
-                  src="/make_cyberpunk_chiwawa_breed_d.png"
-                  alt="AI generated cyberpunk chihuahua"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                <Image src="/make_cyberpunk_chiwawa_breed_d.png" alt="AI generated cyberpunk chihuahua" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0">
-                  <p className="text-sm font-medium text-foreground">Cyber Chihuahua</p>
-                  <p className="text-xs text-muted-foreground">Digital companion</p>
+                  <p className="text-sm font-medium text-white">Cyber Chihuahua</p>
+                  <p className="text-xs text-gray-300">Digital companion</p>
                 </div>
               </div>
-
               <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
-                <Image
-                  src="/make_punk_cat .png"
-                  alt="AI generated punk cat"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                <Image src="/make_punk_cat .png" alt="AI generated punk cat" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0">
-                  <p className="text-sm font-medium text-foreground">Punk Cat</p>
-                  <p className="text-xs text-muted-foreground">Rebel style</p>
+                  <p className="text-sm font-medium text-white">Punk Cat</p>
+                  <p className="text-xs text-gray-300">Rebel style</p>
                 </div>
               </div>
             </div>
