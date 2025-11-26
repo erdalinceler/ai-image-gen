@@ -57,11 +57,8 @@ export async function POST(req: Request) {
     const imageUrl = `data:image/png;base64,${base64}`;
 
     // Log remaining credits
-    const remainingCredits = response.headers.get('x-remaining-credits');
-    const creditsConsumed = response.headers.get('x-credits-consumed');
-
     // Save to Supabase
-    const { data: insertData, error: dbError } = await supabase
+    const { error: dbError } = await supabase
       .from('generated_images')
       .insert({
         user_id: userId,

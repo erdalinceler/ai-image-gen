@@ -13,7 +13,6 @@ export default function Dashboard() {
   const { user } = useUser();
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
   const [recentImages, setRecentImages] = useState<GeneratedImage[]>([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -42,8 +41,7 @@ export default function Dashboard() {
         throw new Error(errorText || 'Failed to generate image');
       }
 
-      const data = await response.json();
-      setImageUrl(data.url);
+      await response.json();
       setPrompt("");
       
       // Refresh recent images and count
@@ -124,7 +122,7 @@ export default function Dashboard() {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-    } catch (error) {
+    } catch {
       // Download failed silently
     }
   };
