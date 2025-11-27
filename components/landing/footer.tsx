@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { AiOutlineGithub, AiOutlineLinkedin } from "react-icons/ai";
+import Container from "@/components/shared/container";
 
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-br from-slate-800 via-purple-900 to-slate-900 border-t border-purple-800/30 py-8">
-      <div className="mx-auto max-w-7xl px-6">
+      <Container>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div className="flex-1">
             <h3 className="text-lg font-semibold bg-gradient-to-r from-indigo-300 via-purple-300 to-purple-400 bg-clip-text text-transparent mb-2">
@@ -53,7 +54,7 @@ export default function Footer() {
             </Link>
           </p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

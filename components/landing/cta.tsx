@@ -4,11 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import Container from "@/components/shared/container";
 
 export default function CTA() {
   return (
-    <section className="py-12 pt-20 md:py-20 px-4 md:px-8 bg-muted/40 border-b border-gray-200">
-      <div className="mx-auto max-w-7xl">
+    <section className="py-12 pt-20 md:py-20 bg-muted/40 border-b border-gray-200">
+      <Container>
         <div className="relative overflow-hidden rounded-3xl bg-black">
           <div className="absolute inset-0">
             <Image
@@ -41,7 +42,7 @@ export default function CTA() {
             </SignedIn>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

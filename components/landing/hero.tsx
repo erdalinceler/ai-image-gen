@@ -5,6 +5,7 @@ import Image from "next/image"
 import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs"
 import { AiOutlineStar } from "react-icons/ai"
 import { Button } from "@/components/ui/button"
+import Container from "@/components/shared/container"
 
 export default function Hero() {
   return (
@@ -21,7 +22,7 @@ export default function Hero() {
         <div className="absolute bottom-0 left-1/3 h-72 w-72 animate-pulse rounded-full bg-purple-400/20 blur-3xl delay-500" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-20 pb-20 lg:pt-24">
+      <Container className="relative z-10 pt-20 pb-20 lg:pt-24">
         <div className="flex justify-center mb-8">
           <div className="group inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 backdrop-blur-sm transition-all hover:border-indigo-300 hover:bg-indigo-100">
             <AiOutlineStar className="h-4 w-4 text-indigo-600" />
@@ -112,7 +113,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }
