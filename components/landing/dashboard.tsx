@@ -133,7 +133,7 @@ export default function Dashboard() {
         <Container>
           <div className="mx-auto w-full max-w-3xl">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
-              <h1 className="text-xl sm:text-2xl font-semibold">Generate AI Images</h1>
+              <h1 className="text-xl font-semibold">Generate AI Images</h1>
               {!isInitialLoading && user ? (
                 <div className="flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-200 w-fit">
                   <span className="text-sm font-medium text-indigo-700">
