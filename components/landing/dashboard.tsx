@@ -75,7 +75,6 @@ export default function Dashboard() {
     const fetchData = async () => {
       if (!user?.id) return;
 
-      // Minimum 6 second loading time
       const startTime = Date.now();
 
       // Fetch recent images
@@ -98,9 +97,9 @@ export default function Dashboard() {
 
       setTotalCount(count || 0);
 
-      // Ensure minimum 6 seconds have passed
+      // Ensure minimum 2 seconds have passed
       const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, 6000 - elapsedTime);
+      const remainingTime = Math.max(0, 2000 - elapsedTime);
       
       setTimeout(() => {
         setIsInitialLoading(false);
@@ -123,7 +122,7 @@ export default function Dashboard() {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch {
-      // Download failed silently
+     
     }
   };
 
@@ -185,12 +184,12 @@ export default function Dashboard() {
               )}
             </div>
 
-            {/* Generated Images Grid */}
+            {}
             <div className="mt-8">
               <h2 className="text-xl font-semibold mb-4">Your Generated Images</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {isInitialLoading ? (
-                  // Loading skeleton
+   
                   <>
                     <div 
                       className="aspect-square bg-gray-200 rounded-lg" 
