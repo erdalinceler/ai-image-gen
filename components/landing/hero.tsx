@@ -81,7 +81,7 @@ export default function Hero() {
 
             <div className="relative grid grid-cols-1 gap-3 md:grid-cols-3 lg:gap-4">
               <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
-                <Image src="/make_cyberpunk_cat.png" alt="AI generated cyberpunk cat" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <Image src="/images/make_cyberpunk_cat.png" alt="AI generated cyberpunk cat" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0">
                   <p className="text-sm font-medium text-white">Cyberpunk Cat</p>
@@ -89,7 +89,7 @@ export default function Hero() {
                 </div>
               </div>
               <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
-                <Image src="/make_cyberpunk_chiwawa_breed_d.png" alt="AI generated cyberpunk chihuahua" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <Image src="/images/make_cyberpunk_chiwawa_breed_d.png" alt="AI generated cyberpunk chihuahua" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0">
                   <p className="text-sm font-medium text-white">Cyber Chihuahua</p>
@@ -97,7 +97,7 @@ export default function Hero() {
                 </div>
               </div>
               <div className="group relative aspect-square overflow-hidden rounded-xl bg-secondary border-4 border-indigo-600">
-                <Image src="/make_punk_cat .png" alt="AI generated punk cat" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <Image src="/images/make_punk_cat .png" alt="AI generated punk cat" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0">
                   <p className="text-sm font-medium text-white">Punk Cat</p>

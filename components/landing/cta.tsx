@@ -13,7 +13,7 @@ export default function CTA() {
         <div className="relative overflow-hidden rounded-3xl bg-black">
           <div className="absolute inset-0">
             <Image
-              src="/A_futuristic_humanoid_robot_st.png"
+              src="/images/A_futuristic_humanoid_robot_st.png"
               alt="AI Robot"
               fill
               className="object-cover object-[center_20%]"
