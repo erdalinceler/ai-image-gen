@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { AiOutlineDownload } from "react-icons/ai";
+import { toast } from "sonner";
 import Header from "@/components/landing/header";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
@@ -13,19 +14,17 @@ export default function Dashboard() {
   const { user } = useUser();
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [recentImages, setRecentImages] = useState<GeneratedImage[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
-      setError("Please enter a prompt");
+      toast.warning("Please enter a prompt");
       return;
     }
 
     setLoading(true);
-    setError("");
     
     try {
       const response = await fetch('/api/generate', {
@@ -63,9 +62,14 @@ export default function Dashboard() {
         
         setTotalCount(count || 0);
       }
+      toast.success("Image generated successfully!");
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Something went wrong';
-      setError(message);
+      if (message.includes('Account limit reached')) {
+        toast.warning("Account limit reached (5 images total)");
+      } else {
+        toast.error(message);
+      }
     } finally {
       setLoading(false);
     }
@@ -179,9 +183,7 @@ export default function Dashboard() {
                 </div>
               )}
               
-              {error && (
-                <p className="text-red-500 text-sm mt-2">{error}</p>
-              )}
+
             </div>
 
             {}
