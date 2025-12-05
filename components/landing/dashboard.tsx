@@ -164,14 +164,21 @@ export default function Dashboard() {
               
               <div className="flex justify-between items-center mt-4">
                 <span className="text-sm text-muted-foreground">{prompt.length}/1000</span>
-                <Button 
-                  size="lg"
-                  className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 rounded-full"
-                  onClick={handleGenerate}
-                  disabled={loading || !prompt.trim()}
-                >
-                  {loading ? 'Generating...' : 'Generate Image ✨'}
-                </Button>
+                {isInitialLoading ? (
+                  <div 
+                    className="h-11 w-44 bg-gray-200 rounded-full" 
+                    style={{ animation: 'skeleton-pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+                  />
+                ) : (
+                  <Button 
+                    size="lg"
+                    className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 rounded-full"
+                    onClick={handleGenerate}
+                    disabled={loading || !prompt.trim()}
+                  >
+                    {loading ? 'Generating...' : 'Generate Image ✨'}
+                  </Button>
+                )}
               </div>
               
               {loading && (
