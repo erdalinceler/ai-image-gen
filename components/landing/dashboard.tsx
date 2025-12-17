@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [recentImages, setRecentImages] = useState<GeneratedImage[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -25,6 +26,17 @@ export default function Dashboard() {
     }
 
     setLoading(true);
+    setProgress(0);
+    
+
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 90) return prev;
+       
+        const increment = prev < 30 ? 8 : prev < 60 ? 5 : prev < 80 ? 2 : 1;
+        return Math.min(prev + increment, 90);
+      });
+    }, 300);
     
     try {
       const response = await fetch('/api/generate', {
@@ -62,6 +74,8 @@ export default function Dashboard() {
         
         setTotalCount(count || 0);
       }
+      clearInterval(progressInterval);
+      setProgress(100);
       toast.success("Image generated successfully!");
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Something went wrong';
@@ -71,7 +85,11 @@ export default function Dashboard() {
         toast.error(message);
       }
     } finally {
-      setLoading(false);
+      clearInterval(progressInterval);
+      setTimeout(() => {
+        setLoading(false);
+        setProgress(0);
+      }, 500);
     }
   };
 
@@ -182,11 +200,16 @@ export default function Dashboard() {
               </div>
               
               {loading && (
-                <div className="mt-4">
-                  <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-pulse" style={{ width: '100%' }}></div>
+                <div className="mt-6">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-300 ease-out"
+                      style={{ 
+                        width: `${progress}%`,
+                      }}
+                    />
                   </div>
-                  <p className="text-sm text-muted-foreground text-center mt-2">Creating your image...</p>
+                  <p className="text-sm text-muted-foreground text-center mt-3">Creating your image...</p>
                 </div>
               )}
               
