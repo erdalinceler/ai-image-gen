@@ -19,21 +19,11 @@ export async function POST(req: Request) {
       return new NextResponse('Prompt is too long', { status: 400 });
     }
 
-    // Check total account limit (5 images per account)
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
-
-    const { count } = await supabase
-      .from('generated_images')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId);
-
-    if (count !== null && count >= 5) {
-      return new NextResponse('Account limit reached (5 images total)', { status: 429 });
-    }
 
     const form = new FormData();
     form.append('prompt', prompt);
@@ -56,21 +46,19 @@ export async function POST(req: Request) {
     const base64 = Buffer.from(arrayBuffer).toString('base64');
     const imageUrl = `data:image/png;base64,${base64}`;
 
-    // Log remaining credits
-    // Save to Supabase
-    const { error: dbError } = await supabase
-      .from('generated_images')
-      .insert({
-        user_id: userId,
-        prompt: prompt,
-        image_url: imageUrl,
-      })
-      .select();
+    const { data: success, error: dbError } = await supabase
+      .rpc('insert_image_with_limit', {
+        p_user_id: userId,
+        p_prompt: prompt,
+        p_image_url: imageUrl,
+      });
 
     if (dbError) {
+      return new NextResponse('Something went wrong', { status: 500 });
+    }
 
-      // Database error occurred but image was generated successfully
-      
+    if (!success) {
+      return new NextResponse('Account limit reached (5 images total)', { status: 429 });
     }
 
     return NextResponse.json({ url: imageUrl });
