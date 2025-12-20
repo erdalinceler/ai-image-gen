@@ -21,6 +21,7 @@ export default function Dashboard() {
 
   // Prevent accidental page refresh during generation
   useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (loading) {
         e.preventDefault();
         e.returnValue = "";
