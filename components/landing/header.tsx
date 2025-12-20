@@ -37,49 +37,54 @@ export default function Header() {
           
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center gap-6">
-            {!isLoaded && (
+            {!isLoaded ? (
               <>
                 <div className="h-9 w-20 bg-gray-200 rounded animate-skeleton" />
                 <div className="h-9 w-24 bg-gray-200 rounded-full animate-skeleton" />
               </>
+            ) : (
+              <>
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                      Sign In
+                    </Button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <Button size="sm" className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 rounded-full">
+                      Get Started
+                    </Button>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  {pathname === "/dashboard" ? (
+                    <Link href="/">
+                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                        Home
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link href="/dashboard">
+                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                        Dashboard
+                      </Button>
+                    </Link>
+                  )}
+                  <UserButton />
+                </SignedIn>
+              </>
             )}
-            <SignedOut>
-              <SignInButton mode="modal">
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                  Sign In
-                </Button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <Button size="sm" className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 rounded-full">
-                  Get Started
-                </Button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              {pathname === "/dashboard" ? (
-                <Link href="/">
-                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                    
-                    Home
-                  </Button>
-                </Link>
-              ) : (
-                <Link href="/dashboard">
-                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                    Dashboard
-                  </Button>
-                </Link>
-              )}
-              <UserButton />
-            </SignedIn>
           </nav>
 
           {/* Mobile Menu - Avatar + Hamburger */}
           <div className="md:hidden flex items-center gap-4">
-            {!isLoaded && <div className="h-8 w-8 bg-gray-200 rounded-full animate-skeleton" />}
-            <SignedIn>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
+            {!isLoaded ? (
+              <div className="h-8 w-8 bg-gray-200 rounded-full animate-skeleton" />
+            ) : (
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            )}
             <button
               className="text-black hover:text-indigo-500 transition-colors z-[60]"
               onClick={() => setIsMenuOpen(!isMenuOpen)}

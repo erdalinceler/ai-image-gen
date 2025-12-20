@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import Header from "@/components/landing/header";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
-import { supabase, type GeneratedImage } from "@/lib/supabase";
+import { type GeneratedImage } from "@/lib/supabase";
 
 export default function Dashboard() {
   const { user } = useUser();
@@ -55,24 +55,12 @@ export default function Dashboard() {
       await response.json();
       setPrompt("");
       
-      // Refresh recent images and count
-      if (user?.id) {
-        const { data: images } = await supabase
-          .from('generated_images')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false })
-          .limit(4);
-        
-        if (images) setRecentImages(images);
-
-        // Update total count
-        const { count } = await supabase
-          .from('generated_images')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', user.id);
-        
-        setTotalCount(count || 0);
+      // Refresh recent images and count via API
+      const refreshResponse = await fetch('/api/images');
+      if (refreshResponse.ok) {
+        const data = await refreshResponse.json();
+        setRecentImages(data.images);
+        setTotalCount(data.totalCount);
       }
       clearInterval(progressInterval);
       setProgress(100);
@@ -99,25 +87,13 @@ export default function Dashboard() {
 
       const startTime = Date.now();
 
-      // Fetch recent images
-      const { data, error } = await supabase
-        .from('generated_images')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(4);
-
-      if (!error) {
-        setRecentImages(data || []);
+      // Fetch data via API
+      const response = await fetch('/api/images');
+      if (response.ok) {
+        const data = await response.json();
+        setRecentImages(data.images);
+        setTotalCount(data.totalCount);
       }
-
-      // Fetch total count
-      const { count } = await supabase
-        .from('generated_images')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id);
-
-      setTotalCount(count || 0);
 
       // Ensure minimum 2 seconds have passed
       const elapsedTime = Date.now() - startTime;
