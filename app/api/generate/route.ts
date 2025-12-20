@@ -25,6 +25,16 @@ export async function POST(req: Request) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
+    // Check limit BEFORE calling ClipDrop API
+    const { count } = await supabase
+      .from('generated_images')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId);
+
+    if (count !== null && count >= 5) {
+      return new NextResponse('Account limit reached (5 images total)', { status: 429 });
+    }
+
     const form = new FormData();
     form.append('prompt', prompt);
 

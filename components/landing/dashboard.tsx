@@ -19,6 +19,18 @@ export default function Dashboard() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [progress, setProgress] = useState(0);
 
+  // Prevent accidental page refresh during generation
+  useEffect(() => {
+      if (loading) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [loading]);
+
   const handleGenerate = async () => {
     if (!prompt.trim()) {
       toast.warning("Please enter a prompt");

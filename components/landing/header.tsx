@@ -10,8 +10,14 @@ import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { isLoaded } = useUser();
+
+  useEffect(() => {
+    setMounted(true);
+     
+  }, []);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -23,6 +29,8 @@ export default function Header() {
       document.body.style.overflow = 'unset';
     };
   }, [isMenuOpen]);
+
+  const showContent = mounted && isLoaded;
 
   return (
     <>
@@ -37,7 +45,7 @@ export default function Header() {
           
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center gap-6">
-            {!isLoaded ? (
+            {!showContent ? (
               <>
                 <div className="h-9 w-20 bg-gray-200 rounded animate-skeleton" />
                 <div className="h-9 w-24 bg-gray-200 rounded-full animate-skeleton" />
@@ -78,7 +86,7 @@ export default function Header() {
 
           {/* Mobile Menu - Avatar + Hamburger */}
           <div className="md:hidden flex items-center gap-4">
-            {!isLoaded ? (
+            {!showContent ? (
               <div className="h-8 w-8 bg-gray-200 rounded-full animate-skeleton" />
             ) : (
               <SignedIn>
