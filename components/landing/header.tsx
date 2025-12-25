@@ -4,20 +4,14 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
-import { AiOutlineStar, AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { isLoaded } = useUser();
-
-  useEffect(() => {
-    setMounted(true);
-     
-  }, []);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -30,17 +24,16 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  const showContent = mounted && isLoaded;
+  const showContent = isLoaded;
 
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-gray-200" style={{ fontFamily: 'var(--font-poppins)' }}>
         <Container className="flex h-16 items-center justify-between" style={{ fontFamily: 'var(--font-poppins)' }}>
           <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600">
-              <AiOutlineStar className="size-5 text-white" />
-            </div>
-            <span className="text-lg font-semibold tracking-tight">AI Photo</span>
+            <span className="text-lg font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-600 bg-clip-text text-transparent">
+              Texura AI
+            </span>
           </Link>
           
           {/* Desktop Menu */}
@@ -114,10 +107,9 @@ export default function Header() {
             {/* Mobile Menu Header with Close Button */}
             <div className="flex justify-between items-center p-4 border-b border-gray-200">
               <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2">
-                <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600">
-                  <AiOutlineStar className="size-5 text-white" />
-                </div>
-                <span className="text-lg font-semibold text-gray-900">AI Photo</span>
+                <span className="text-lg font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-600 bg-clip-text text-transparent">
+                  Texura AI
+                </span>
               </Link>
               <button
                 className="text-gray-900 hover:text-indigo-500 transition-colors p-2"
