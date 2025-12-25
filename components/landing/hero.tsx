@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { AiOutlineStar, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { PiMagicWandFill } from "react-icons/pi";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
@@ -16,42 +17,42 @@ const images = [
     alt: "AI generated cyberpunk cat",
     title: "Cyberpunk Cat",
     subtitle: "Neon city vibes",
-    prompt: "Create a cyberpunk cat with neon lights...",
+    prompt: "Create a cyberpunk cat with neon lights",
   },
   {
     src: "/images/make_cyberpunk_chiwawa_breed_d.png",
     alt: "AI generated cyberpunk chihuahua",
     title: "Cyber Chihuahua",
     subtitle: "Digital companion",
-    prompt: "Make a cyberpunk chihuahua breed dog...",
+    prompt: "Make a cyberpunk chihuahua breed dog",
   },
   {
     src: "/images/make_punk_cat .png",
     alt: "AI generated punk cat",
     title: "Punk Cat",
     subtitle: "Rebel style",
-    prompt: "Make a punk cat with mohawk...",
+    prompt: "Make a punk cat with mohawk",
   },
   {
     src: "/images/_A_Renaissance_style_painting_.png",
     alt: "AI generated Renaissance style painting",
     title: "Renaissance Art",
     subtitle: "Classical beauty",
-    prompt: "A Renaissance style painting...",
+    prompt: "A Renaissance style painting",
   },
   {
     src: "/images/_A_serene_lake_surrounded_by_a.png",
     alt: "AI generated serene lake landscape",
     title: "Serene Lake",
     subtitle: "Nature's peace",
-    prompt: "A serene lake surrounded by autumn trees...",
+    prompt: "A serene lake surrounded by autumn trees",
   },
   {
     src: "/images/_A_tranquil_Japanese_garden_in.png",
     alt: "AI generated Japanese garden",
     title: "Japanese Garden",
     subtitle: "Zen tranquility",
-    prompt: "A tranquil Japanese garden in spring...",
+    prompt: "A tranquil Japanese garden in spring",
   },
 ];
 
@@ -60,6 +61,8 @@ export default function Hero() {
     Autoplay({ delay: 4000, stopOnInteraction: false }),
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -72,6 +75,25 @@ export default function Hero() {
       emblaApi.off("select", onSelect);
     };
   }, [emblaApi]);
+
+  useEffect(() => {
+    const currentPrompt = images[selectedIndex].prompt;
+    setDisplayedText("");
+    setIsTyping(true);
+    
+    let charIndex = 0;
+    const typingInterval = setInterval(() => {
+      if (charIndex < currentPrompt.length) {
+        setDisplayedText(currentPrompt.slice(0, charIndex + 1));
+        charIndex++;
+      } else {
+        setIsTyping(false);
+        clearInterval(typingInterval);
+      }
+    }, 50);
+
+    return () => clearInterval(typingInterval);
+  }, [selectedIndex]);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-muted/40 pb-16 border-b border-gray-200">
@@ -135,11 +157,12 @@ export default function Hero() {
 
         <div className="relative mt-20 lg:mt-28">
           <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 transform lg:-top-6">
-            <div className="flex items-center gap-3 rounded-full border border-indigo-200 bg-white/80 px-5 py-3 shadow-2xl backdrop-blur-md">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-indigo-600" />
-              <span className="font-mono text-sm text-gray-600 transition-all duration-300">
-                &quot;{images[selectedIndex].prompt}&quot;
+            <div className="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-indigo-50 to-purple-50 px-5 py-3 shadow-2xl backdrop-blur-md border border-indigo-300/50">
+              <span className="font-mono text-sm text-gray-700 whitespace-nowrap">
+                {displayedText}
+                {isTyping && <span className="animate-pulse text-indigo-500">|</span>}
               </span>
+              <PiMagicWandFill className="h-5 w-5 text-indigo-500 flex-shrink-0" />
             </div>
           </div>
 
