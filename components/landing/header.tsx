@@ -1,17 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
-import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
 
+const emptySubscribe = () => () => {};
+
+function useHasMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const hasMounted = useHasMounted();
   const pathname = usePathname();
-  const { isLoaded } = useUser();
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -24,8 +34,6 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  const showContent = isLoaded;
-
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-gray-200" style={{ fontFamily: 'var(--font-poppins)' }}>
@@ -37,11 +45,11 @@ export default function Header() {
           </Link>
           
           {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center gap-6">
-            {!showContent ? (
+          <nav className="hidden md:flex items-center gap-6" suppressHydrationWarning>
+            {!hasMounted ? (
               <>
-                <div className="h-9 w-20 bg-gray-200 rounded animate-skeleton" />
-                <div className="h-9 w-24 bg-gray-200 rounded-full animate-skeleton" />
+                <div className="h-9 w-20 bg-gray-200 rounded animate-pulse" />
+                <div className="h-9 w-24 bg-gray-200 rounded-full animate-pulse" />
               </>
             ) : (
               <>
@@ -78,10 +86,8 @@ export default function Header() {
           </nav>
 
           {/* Mobile Menu - Avatar + Hamburger */}
-          <div className="md:hidden flex items-center gap-4">
-            {!showContent ? (
-              <div className="h-8 w-8 bg-gray-200 rounded-full animate-skeleton" />
-            ) : (
+          <div className="md:hidden flex items-center gap-4" suppressHydrationWarning>
+            {hasMounted && (
               <SignedIn>
                 <UserButton />
               </SignedIn>
@@ -104,7 +110,6 @@ export default function Header() {
           style={{ fontFamily: 'var(--font-poppins)' }}
         >
           <div className="flex flex-col min-h-screen">
-            {/* Mobile Menu Header with Close Button */}
             <div className="flex justify-between items-center p-4 border-b border-gray-200">
               <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2">
                 <span className="text-lg font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-600 bg-clip-text text-transparent">
@@ -120,7 +125,6 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Mobile Menu Items */}
             <div className="flex flex-col items-center justify-center flex-grow gap-8 py-8">
               <SignedOut>
                 <SignInButton mode="modal">
