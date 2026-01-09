@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import Script from "next/script";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -38,6 +39,16 @@ export default function RootLayout({
     >
       <html lang="en" suppressHydrationWarning>
         <body className={poppins.variable} suppressHydrationWarning>
+          <Script id="disable-form-validation" strategy="afterInteractive">
+            {`
+              const observer = new MutationObserver(function() {
+                document.querySelectorAll('form').forEach(function(form) {
+                  form.setAttribute('novalidate', 'true');
+                });
+              });
+              observer.observe(document.body, { childList: true, subtree: true });
+            `}
+          </Script>
           <NextTopLoader
             color="#6366f1"
             height={3}
