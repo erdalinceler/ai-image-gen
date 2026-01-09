@@ -22,7 +22,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "#6366f1",
+          borderRadius: "0.5rem",
+          fontFamily: "var(--font-poppins), sans-serif",
+        },
+        elements: {
+          formButtonPrimary: 
+            "bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-full font-medium",
+          formFieldInput: "rounded-lg",
+        },
+      }}
+    >
       <html lang="en" suppressHydrationWarning>
         <body className={poppins.variable} suppressHydrationWarning>
           <NextTopLoader
