@@ -98,8 +98,6 @@ export default function Dashboard() {
     const fetchData = async () => {
       if (!user?.id) return;
 
-      const startTime = Date.now();
-
       // Fetch data via API
       const response = await fetch('/api/images');
       if (response.ok) {
@@ -108,13 +106,7 @@ export default function Dashboard() {
         setTotalCount(data.totalCount);
       }
 
-      // Ensure minimum 2 seconds have passed
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, 2000 - elapsedTime);
-      
-      setTimeout(() => {
-        setIsInitialLoading(false);
-      }, remainingTime);
+      setIsInitialLoading(false);
     };
 
     fetchData();
