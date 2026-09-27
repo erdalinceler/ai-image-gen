@@ -1,5 +1,6 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import { getSupabaseAdmin } from "@/lib/supabase-server";
 
 export async function POST(req: Request) {
   try {
@@ -19,11 +20,7 @@ export async function POST(req: Request) {
       return new NextResponse('Prompt is too long', { status: 400 });
     }
 
-    const { createClient } = await import('@supabase/supabase-js');
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
+    const supabase = getSupabaseAdmin();
 
     // Check limit BEFORE calling ClipDrop API
     const { count } = await supabase
